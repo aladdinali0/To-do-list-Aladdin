@@ -3,8 +3,6 @@ package com.luv2code.springboot.todolist.mycoolapp.rest;
 import com.luv2code.springboot.todolist.mycoolapp.dao.TodolistDao;
 import com.luv2code.springboot.todolist.mycoolapp.entity.Todolistproject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +41,17 @@ public class TodolistRestController {
     public Todolistproject deleteAll() {
        return todolistDao.deleteAll();
     }
+
+    @PostMapping("/addTask")
+    public Todolistproject addTask(@RequestParam String taskname, @RequestParam String description) {
+        Todolistproject newTask = new Todolistproject();
+        newTask.setTaskname(taskname);
+        newTask.setDescription(description);
+        // You might want to set other properties as needed before saving
+
+        return todolistDao.save(newTask);
+    }
+
 
 }
 
