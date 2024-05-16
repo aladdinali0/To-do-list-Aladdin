@@ -1,11 +1,12 @@
 package com.luv2code.springboot.todolist.mycoolapp.rest;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.luv2code.springboot.todolist.mycoolapp.dao.TodolistDao;
 import com.luv2code.springboot.todolist.mycoolapp.entity.Todolistproject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping("api/")
@@ -21,27 +22,29 @@ public class TodolistRestController {
     }
 
     // expose "/todolists" and return a full to-do list
+    @CrossOrigin(origins = "*")
     @GetMapping("/todolists")
     public List<Todolistproject> findAll() {
         return todolistDao.findAll();
     }
-
+    @CrossOrigin(origins = "*")
     @PostMapping("/todolists") // change the endpoint later to avoid confusion
     public Todolistproject addTask(@RequestBody Todolistproject theTodolistproject) {
         theTodolistproject.setID(0);
         return todolistDao.save(theTodolistproject);
     }
-
+    @CrossOrigin(origins = "*")
     @PutMapping("/todolists") // change the endpoint later to avoid confusion
     public Todolistproject updateTask(@RequestBody Todolistproject theTodolistproject) {
         return todolistDao.save(theTodolistproject);
     }
-
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/todolists") // change the endpoint later to avoid confusion
     public Todolistproject deleteAll() {
        return todolistDao.deleteAll();
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/addTask")
     public Todolistproject addTask(@RequestParam String taskname, @RequestParam String description) {
         Todolistproject newTask = new Todolistproject();
