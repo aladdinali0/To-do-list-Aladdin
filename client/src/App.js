@@ -63,16 +63,78 @@ setNewTask(updatedTask);
   
         const updatedTask = {
           ...jsonData, // Assuming the response contains the newly added task with an ID
-          completed: true
+          completed: false
         };
   
         const newList = [...list, updatedTask];
         setList(newList);
+        setNewTask({ taskname: "", description: ""}); // resets input fields after adding tasks
       } catch (error) {
         console.error('Error adding task:', error);
       }
     }
+
+    const deleteAllTasks  = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/todolists',{
+        method: 'DELETE'
+      
+    });
+
+    if (!response.ok){
+      throw new Error('failed to delete all tasks')
+    }
+
+      setList([]);
+    } catch(error) {
+      console.error('Error deleting all tasks:', error);
+    }
   
+  }
+
+
+  const deleteTaskById = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/todolists/${id}`,{
+      method: 'DELETE'
+    });
+
+    if (!response.ok) {
+      throw new Error('failed to delete task');
+    }
+
+    const updatedList = list.filter(task => task.id !== id)
+    setList(updatedList);
+  } catch (error)  {
+    console.error('Error deleting task:', error);
+  }
+
+};
+
+
+const markTaskAsComplete = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/todolists/${id}/markComplete`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if(!response.ok) {
+      throw new Error('failed to mark task as complete');
+    }
+
+    // update the local state to reflect the change
+    const updatedList = list.map(task =>
+      task.id === id ? {...task, completed: true } : task
+    );
+    setList(updatedList);
+  } catch (error) {
+    console.error('Error marking task as complete:', error);
+  }
+};
+
 
 
   
@@ -87,10 +149,26 @@ setNewTask(updatedTask);
       <button onClick={handleAddTask}>
         Add Task
       </button>
+      
+      <button onClick={deleteAllTasks}>
+        Delete All Tasks
+      </button>
     </div>
     <ul>
     {list.map((item)=>(
-<li key={item.id}><p>{item.taskname}</p> <p>{item.description}</p></li>
+<li key={item.id}>
+<p>{item.taskname}</p> 
+<p>{item.description}</p>
+<p>Completed: {item.completed ? "Yes" : "No" }</p>
+{!item.completed && (
+  <button onClick={() => markTaskAsComplete(item.id)}>
+    Mark as Complete
+  </button>
+)}
+<button onClick={() => deleteTaskById(item.id)}>
+  Delete Task
+</button>
+</li>
     ))}
     </ul>
    </div>

@@ -67,8 +67,26 @@ public class TodolistDaoimpl implements TodolistDao {
 
     }
 
+    @Transactional
     @Override
-    public void markAsComplete(boolean taskId) {
+    public Todolistproject findById(int taskId) {
+        // finds todolist task by id
+        Todolistproject theTodolistproject = entityManager.find(Todolistproject.class, taskId);
+
+        return theTodolistproject;
+
+    }
+
+
+    @Transactional
+    @Override
+    public void markAsComplete(int taskId) {
+        Todolistproject theTodolistproject = entityManager.find(Todolistproject.class, taskId);
+        if (theTodolistproject == null) {
+            throw new RuntimeException("Task id is not found: Error " + taskId);
+        }
+        theTodolistproject.setCompleted(true);
+        entityManager.merge(theTodolistproject);
 
     }
 }

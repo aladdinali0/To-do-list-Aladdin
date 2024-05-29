@@ -11,10 +11,12 @@ public interface TodolistDao {
 
     Todolistproject deleteAll();
 
+    Todolistproject findById(int taskId);
+
 
     void deleteById(int taskId);
 
-    void markAsComplete(boolean taskId);
+    void markAsComplete(int taskId);
 
 
 

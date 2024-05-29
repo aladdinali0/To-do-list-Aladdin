@@ -43,7 +43,7 @@ Open Postman and start interacting with your API endpoints.
 
 You can view and manage your tasks through MySQL Workbench or by accessing the application URL:
 
-- Backend Results: Access via MySQL Workbench
+- Backend Results: Access via MySQL Workbench or http://localhost:8080
 - Frontend Interface: Visit http://localhost:3000/ to input tasks and descriptions
 
 
@@ -66,6 +66,38 @@ my backend, still in progress.
 this url allows the user to input things in my to-do-list and my backend will 
 retrieve the information that was entered.
 - More functionalities will be implemented soon ! 
+
+
+
+## 2.0:
+- Added a few more API endpoints in my TodolistRestController 
+- Added some new front-end user interface features. 
+- More functionalities will be implemented soon like security, maybe task priority, 
+status who knows ?
+
+### NEW API Endpoints 
+- `GET /api/todolists/{taskId} ` : Gets task by ID
+- `DELETE /api/todolists/{taskId} ` : Deletes task by ID 
+- `PUT /api/todolists/{taskId}/markComplete` : Helps the front-end  mark as complete
+and relays new information to the backend. 
+
+
+### React/Front End 
+- As of now, I added buttons `Delete All Tasks `, `Mark as Complete` and `Delete Task` :
+- So whenever a user goes on http://localhost:3000/ enters a task or description, 
+automatically the front-end accepts the task and description as `not completed/false` 
+- The user has two options for each task they can `Mark as Complete` or `Delete Task` without having
+to complete it. 
+- Once completed, the boolean flips `Yes/True` and changes 
+immediately reflects in the backend.
+- `Delete All Tasks` simply clears every record in the Todolist. 
+
+
+
+
+
+
+
 
 
 

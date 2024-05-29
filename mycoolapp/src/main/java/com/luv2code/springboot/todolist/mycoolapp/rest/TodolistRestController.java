@@ -28,6 +28,16 @@ public class TodolistRestController {
         return todolistDao.findAll();
     }
     @CrossOrigin(origins = "*")
+    @GetMapping("/todolists/{taskId}")
+    public Todolistproject findById(@PathVariable int taskId){
+        Todolistproject theTodolistproject = todolistDao.findById(taskId);
+        if (theTodolistproject == null){
+            throw new RuntimeException("Task id is not found: Error " + taskId);
+        }
+        return theTodolistproject;
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/todolists") // change the endpoint later to avoid confusion
     public Todolistproject addTask(@RequestBody Todolistproject theTodolistproject) {
         theTodolistproject.setID(0);
@@ -39,10 +49,31 @@ public class TodolistRestController {
         return todolistDao.save(theTodolistproject);
     }
     @CrossOrigin(origins = "*")
-    @DeleteMapping("/todolists") // change the endpoint later to avoid confusion
+    @DeleteMapping("/todolists")
     public Todolistproject deleteAll() {
        return todolistDao.deleteAll();
     }
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping("/todolists/{taskId}")
+    public String deleteById(@PathVariable int taskId){
+        Todolistproject theTodolistproject = todolistDao.findById(taskId);
+
+        if (theTodolistproject == null){
+            throw new RuntimeException("Task id is not found: Error " + taskId);
+        }
+        todolistDao.deleteById(taskId);
+        return " Deleted task id - " + taskId;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/todolists/{taskId}/markComplete")
+    public void markTaskAsComplete(@PathVariable int taskId) {
+        todolistDao.markAsComplete(taskId);
+    }
+
+
+
 
     @CrossOrigin(origins = "*")
     @PostMapping("/addTask")
@@ -51,18 +82,12 @@ public class TodolistRestController {
         newTask.setTaskname(taskname);
         newTask.setDescription(description);
         // You might want to set other properties as needed before saving
+        newTask.setID(0);
 
         return todolistDao.save(newTask);
     }
 
-
 }
-
-
-
-
-
-
 
 
 
