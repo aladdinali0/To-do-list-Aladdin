@@ -1,5 +1,6 @@
 package com.luv2code.springboot.todolist.mycoolapp.entity;
 
+import com.luv2code.springboot.todolist.mycoolapp.models.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +11,7 @@ public class Todolistproject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private long id;
 
     @Column(name="task_name")
     private String taskname;
@@ -21,21 +22,26 @@ public class Todolistproject {
     @Column(name="completed")
     private boolean completed;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
+
     // define constructors
     public Todolistproject(){
     }
 
-    public Todolistproject(String taskname, String description, Boolean completed){
+    public Todolistproject(String taskname, String description, Boolean completed, User user){
         this.taskname = taskname;
         this.description = description;
         this.completed = completed;
+        this.user = user;
 
     }
 
 
 
     // define getters/setters
-    public int getId(){
+    public long getId(){
         return id;
     }
     public void setID(int id){
@@ -66,6 +72,15 @@ public class Todolistproject {
         this.completed = completed;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
 
 
@@ -79,6 +94,7 @@ public class Todolistproject {
                 ", taskname='" + taskname + '\'' +
                 ", description='" + description + '\'' +
                 ", completed=" + completed +
+                ", user=" + user +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.luv2code.springboot.todolist.mycoolapp;
+package com.luv2code.springboot.todolist.mycoolapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

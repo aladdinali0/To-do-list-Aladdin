@@ -1,6 +1,107 @@
+CREATE TABLE IF NOT EXISTS `todolistschema`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `password` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `UK_r43af9ap4edm43mmtq01oddj6` (`username` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
+
+
+
+
+CREATE TABLE IF NOT EXISTS `todolistschema`.`todolistproject` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `task_name` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255) NULL DEFAULT NULL,
+  `completed` TINYINT(1) NULL DEFAULT '0',
+  `user_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK913gsoc6ra2j6l0evxtuxletk` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `FK913gsoc6ra2j6l0evxtuxletk`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `todolistschema`.`users` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 39
+DEFAULT CHARACTER SET = latin1
+
+
+
+
+package com.luv2code.springboot.todolist.mycoolapp.service;
+
+import com.luv2code.springboot.todolist.mycoolapp.dao.TodolistDao;
+import com.luv2code.springboot.todolist.mycoolapp.entity.Todolistproject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TodolistServiceimpl implements  TodolistService{
+    private TodolistDao todolistDao;
+    @Autowired
+    public TodolistServiceimpl(TodolistDao thetodolistDao) {
+        todolistDao = thetodolistDao;
+    }
+
+    @Override
+    public List<Todolistproject> findAll() {
+        return todolistDao.findAll();
+    }
+
+    @Override
+    public Todolistproject save(Todolistproject theTodolistproject) {
+        return todolistDao.save(theTodolistproject);
+    }
+
+    @Override
+    public Todolistproject deleteAll() {
+        return todolistDao.deleteAll();
+    }
+
+    @Override
+    public Todolistproject findById(int taskId) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(int taskId) {
+
+    }
+
+    @Override
+    public void markAsComplete(int taskId) {
+
+    }
+}
+
+
+I see life because when i do this i can see all todolists  tasks 
+
+@Override
+    public Todolistproject findById(int taskId) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(int taskId) {
+
+    }
+
+    @Override
+    public void markAsComplete(int taskId) {
+
+    }
+}
+
+unsure about these ^^^ 
+
 package com.luv2code.springboot.todolist.mycoolapp.rest;
 import com.luv2code.springboot.todolist.mycoolapp.service.TodolistService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+//import com.luv2code.springboot.todolist.mycoolapp.dao.TodolistDao;
 import com.luv2code.springboot.todolist.mycoolapp.entity.Todolistproject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +115,7 @@ public class TodolistRestController {
 
     @Autowired
     // inject todolistdao (constructor injection
-    private final TodolistService todolistService;
+    private TodolistService todolistService;
 
     @Autowired
     public TodolistRestController(TodolistService theToodolistService) {
@@ -69,10 +170,6 @@ public class TodolistRestController {
     @CrossOrigin(origins = "*")
     @PutMapping("/todolists/{taskId}/markComplete")
     public void markTaskAsComplete(@PathVariable int taskId) {
-        Todolistproject theTodolistproject = todolistService.findById(taskId);
-        if (theTodolistproject == null) {
-            throw new RuntimeException("Task id not found: " + taskId);
-        }
         todolistService.markAsComplete(taskId);
     }
 
@@ -94,7 +191,9 @@ public class TodolistRestController {
 }
 
 
-
-
-
-
+{
+    "username": "user",
+    "email": "user@bezkoder.com",
+    "password": "12345678",
+    "role": ["user"]
+}

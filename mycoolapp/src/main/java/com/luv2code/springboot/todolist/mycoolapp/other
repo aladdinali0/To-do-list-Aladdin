@@ -1,0 +1,8 @@
+@PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+
+        if (userRepository.findByUsername(user.getUsername()) != null)
+            return ResponseEntity.badRequest().body("Error! Username already exists");
+         User savedUser = userRepository.save(user);
+         return ResponseEntity.ok(savedUser.getUsername() + " saved!");
+    }
