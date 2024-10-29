@@ -1,5 +1,6 @@
 package com.luv2code.springboot.todolist.mycoolapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luv2code.springboot.todolist.mycoolapp.models.User;
 import jakarta.persistence.*;
 
@@ -22,8 +23,9 @@ public class Todolistproject {
     @Column(name="completed")
     private boolean completed;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties({"password", "email", "roles"})
     private User user;
 
     // define constructors
@@ -44,7 +46,7 @@ public class Todolistproject {
     public long getId(){
         return id;
     }
-    public void setID(int id){
+    public void setID(long id){
         this.id = id;
     }
 

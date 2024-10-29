@@ -3,6 +3,8 @@ package com.luv2code.springboot.todolist.mycoolapp.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.luv2code.springboot.todolist.mycoolapp.entity.Todolistproject;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,6 +42,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Todolistproject> todolistProjects = new HashSet<>();
 
 
     // Constructors
@@ -93,12 +99,12 @@ public class User {
         this.roles = roles;
     }
 
-    /* // toString method
+     // toString method
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 '}';
-    }*/
+    }
 }

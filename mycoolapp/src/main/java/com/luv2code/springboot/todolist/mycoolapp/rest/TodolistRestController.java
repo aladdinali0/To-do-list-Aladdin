@@ -29,7 +29,7 @@ public class TodolistRestController {
     }
     @CrossOrigin(origins = "*")
     @GetMapping("/todolists/{taskId}")
-    public Todolistproject findById(@PathVariable int taskId){
+    public Todolistproject findById(@PathVariable("taskId")int taskId){ 
         Todolistproject theTodolistproject = todolistService.findById(taskId);
         if (theTodolistproject == null){
             throw new RuntimeException("Task id is not found: Error " + taskId);
