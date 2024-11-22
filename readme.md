@@ -165,9 +165,9 @@ returns a JWT token.
   - #### Request Body:
   ```json
    {
-   "username": "kyle_singler",
-   "email": "kyle.singler@bezkoder.com",
-   "password": "slime123",
+   "username": "",
+   "email": "",
+   "password": "",
    "role": ["user"]
   }
   ```
