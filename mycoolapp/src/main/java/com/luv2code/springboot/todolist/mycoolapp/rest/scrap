@@ -1,0 +1,3 @@
+    public Set<Todolistproject> getTasks() { return tasks; }
+
+    public void setTasks(Set<Todolistproject> tasks) { this.tasks = tasks; }

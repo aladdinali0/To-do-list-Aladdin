@@ -95,6 +95,113 @@ immediately reflects in the backend.
 
 
 
+## 2.5:
+### Welcome Back ! 
+
+- Came back with some new changes:
+- Implemented Token-based Authentication with JWT and Spring Security.
+- Added Models for users along with three roles: User, Moderator & Admin 
+for creating user-like privileges.
+
+## New Features
+
+- Create a new task according to logged-in User
+- Read all tasks according to logged-in User
+- Sign-in 
+- Sign-up 
+
+## New Tech
+- JWT AUTH
+- Spring Security
+
+### EER Diagram Expansion:
+- To ensure every user can access their own todolist/database, I had to create
+a 1 to M relationship between todolistproject and users.
+- So modified Todolistproject and User Entities to support this by creating a new field
+user_id and labeled it as a foreign key to reference the user's table ID.
+<img alt="img.png" height="400" src="img.png" width="600"/>
+
+### New classes:
+- Added a Repository & Service Class for Todolistproject. The Repository was made 
+to reduce boilerplate code.
+
+## NEW/Modified API Endpoints 
+`TodolistRestController`
+- `GET /api/todolists/` : `Modified *` This Endpoint retrieves all tasks associated
+with logged-in user in contrast to before retrieving everything. 
+- `POST /api/todolists/`: `Modified *` This Endpoint allows for creating a task 
+associated with logged-in user. 
+  - If the associated user isn't logged in and tries to access this endpoint,
+  it will create an exception. 
+
+
+`AuthController`
+- `POST /api/auth/signin` : Authenticate user by username and password, 
+returns a JWT token.
+  -  #### Request Body:
+  ```json 
+  {
+    "username": "user_name",
+    "password": "password"
+  }
+  ```
+  
+  -  #### Return Body: 
+  In response, the user receives an authentication token, which they can use to access protected resources 
+  by including it in the Authorization header of later requests.
+  ```json 
+  {
+    "id": 1,
+    "username": "username",
+    "email": "username@bezkoder.com",
+    "roles": [
+        "ROLE_USER"
+    ],
+    "tokenType": "Bearer",
+    "accessToken": "XXX"
+  }
+  ```
+- `POST /api/auth/signup` : Creates a user by username and password,  
+  - #### Request Body:
+  ```json
+   {
+   "username": "kyle_singler",
+   "email": "kyle.singler@bezkoder.com",
+   "password": "slime123",
+   "role": ["user"]
+  }
+  ```
+  -  #### Return Body:
+  ```json
+  {
+  "message": "User registered successfully!"
+  }
+  ```
+
+## New Updates:
+I still some have more endpoints to correct will shortly be up and running, Front-End/
+React is currently down.
+Next steps are planning to:
+- Work on the Front-End, Ensuring a User-friendly login
+- More-Endpoints for the TodolistRestController to provide more functionalities
+- Maybe look into deployment, 
+maybe heroku for the backend or netlify for the front-end.
+
+
+## Feedback
+More features are coming soon.
+Please feel free to 
+provide any suggestions or feedback for improvement.
+Thank you!
+
+  
+
+  
+
+
+
+
+
 
 
 

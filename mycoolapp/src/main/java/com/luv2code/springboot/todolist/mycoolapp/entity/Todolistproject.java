@@ -1,5 +1,8 @@
 package com.luv2code.springboot.todolist.mycoolapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.luv2code.springboot.todolist.mycoolapp.models.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +13,7 @@ public class Todolistproject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private long id;
 
     @Column(name="task_name")
     private String taskname;
@@ -21,24 +24,31 @@ public class Todolistproject {
     @Column(name="completed")
     private boolean completed;
 
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}) // * if this interrupts my postman * fetchtype change it to eager
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties({"password", "email", "roles"})
+    private User user;
+
     // define constructors
     public Todolistproject(){
     }
 
-    public Todolistproject(String taskname, String description, Boolean completed){
+    public Todolistproject(String taskname, String description, Boolean completed, User user){
         this.taskname = taskname;
         this.description = description;
         this.completed = completed;
+        this.user = user;
 
     }
 
 
 
     // define getters/setters
-    public int getId(){
+    public long getId(){
         return id;
     }
-    public void setID(int id){
+    public void setID(long id){
         this.id = id;
     }
 
@@ -66,6 +76,15 @@ public class Todolistproject {
         this.completed = completed;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
 
 
@@ -79,6 +98,7 @@ public class Todolistproject {
                 ", taskname='" + taskname + '\'' +
                 ", description='" + description + '\'' +
                 ", completed=" + completed +
+                ", user=" + user +
                 '}';
     }
 }
