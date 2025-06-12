@@ -8,6 +8,7 @@ class MycoolappApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.print("Kobe is the b est");
 	}
 
 }

@@ -59,7 +59,6 @@ public class TodolistServiceimpl implements  TodolistService {
 
     @Override
     public Todolistproject findById(int taskId) {
-        // Find task by ID (currently does not check for user-specific tasks)
         return todolistRepository.findById(Long.valueOf(taskId))
                 .orElseThrow(() -> new RuntimeException("Task id not found: " + taskId));
     }
